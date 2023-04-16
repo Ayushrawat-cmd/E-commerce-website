@@ -186,7 +186,7 @@
                     <% if(session.cart && (session.cart.items).hasOwnProperty(item._id)) { %>
                     <div class="quantity-control inline">
                       <button type="button" class="less removeOneBtn">
-                        <% if(session.cart.items[item._id].reduce((a,i) => a + i.qty, 0) === 1) { %>
+                        <% if(session.cart.items[item._id]) { %>
                         <span class="material-icons">
                           delete_outline
                         </span>
@@ -196,7 +196,7 @@
                         </span>
                         <% } %>
                       </button>
-                      <p><%= session.cart.items[item._id].reduce((a,i) => a + i.qty, 0) %></p>
+                      <p><%= session.cart.items[item._id].qty %></p>
                       <button type="button" class="more addToCart addMoreBtn">
                         <span class="material-icons">
                           add
@@ -460,7 +460,7 @@
               <% if(Array.isArray(cartItem)) { %>
               <% cartItem.forEach(pizza => { %>
               <% if(pizza.qty > 0) { %>
-              <div class="item <% if (!pizza.item.extra) %> sm">
+              <div class="item <% if (!pizza.item.extra) %> sm ">
                 <figure>
                   <img src="<%= pizza.item.image %>" alt="">
                 </figure>
@@ -504,7 +504,7 @@
               </div>
               <% }}) %>
               <% } else { %>
-              <div class="item sm">
+              <div class="item sm menu-card-data" data-item="<%= JSON.stringify(cartItem.item) %>">
                 <figure>
                   <img src="<%= cartItem.item.image %>" alt="">
                 </figure>
@@ -515,19 +515,19 @@
                 </div>
                 <div class="price-q">
                   <div class="quantity-control">
-                    <button type="button" class="less">
+                    <button type="button" class="removeOneBtn less">
                       <% if(cartItem.qty === 1) { %>
                       <span class="material-icons">
                         delete_outline
                       </span>
                       <% } else { %>
-                      <span class="material-icons">
+                      <span class="material-icons ">
                         remove
                       </span>
                       <% } %>
                     </button>
                     <p><%= cartItem.qty %> </p>
-                    <button type="button" class="more">
+                    <button type="button" class="more addToCart addMoreBtn">
                       <span class="material-icons">
                         add
                       </span>

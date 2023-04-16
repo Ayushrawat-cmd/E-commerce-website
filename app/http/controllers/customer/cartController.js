@@ -99,6 +99,7 @@ function cartController() {
     removeItem(req, res) {
 
       let cart = req.session.cart;
+      // console.log(cart);
       if (Array.isArray(cart.items[req.body._id])) {
 
         if (cart.items[req.body._id].length > 1) {

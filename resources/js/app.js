@@ -362,7 +362,7 @@ toggles.forEach(toggle => {
 function addToCart(item) {
   axios.post('/add-item', item)
     .then((res) => {
-
+      console.log(res.data.cart);
       cartCounter.innerText = res.data.cart.totalQty;
       populateCart(res.data.cart);
       showToast('success', `${item.name} added to cart`);
@@ -379,6 +379,7 @@ async function removeItem(item) {
     if (res.data.status === 'ok') {
       cartCounter.innerText = res.data.cart.totalQty;
       populateCart(res.data.cart);
+      showToast('success', `${item.name} removed from cart`);
       return res.data.cart;
     } else {
       showAlert('Multiple customizations of this item are added to cart. Please remove item from cart.', 'OK, GOT IT', 'Remove item from cart');
@@ -558,7 +559,7 @@ addtoCartBtn.forEach(btn => {
   btn.addEventListener('click', (e) => {
 
     const item = JSON.parse(btn.closest(".menu-card-data").dataset.item);
-
+    // console.log(btn);
     if (item.menuType === 'pizza' || item.menuType === 'pizzamania') {
       const size = btn.closest(".menu-details").getElementsByClassName('size-select')[0];
       const selectedSize = size.options[size.selectedIndex].value;
@@ -613,6 +614,7 @@ addFirstBtn.forEach(btn => {
 
       // add to cart
       const item = JSON.parse(moreBtn.closest(".menu-card-data").dataset.item);
+      console.log(item);
       if (item.menuType === 'pizza' || item.menuType === 'pizzamania') {
         const size = moreBtn.closest(".menu-details").getElementsByClassName('size-select')[0];
         const selectedSize = size.options[size.selectedIndex].value;
@@ -648,6 +650,7 @@ const addMoreBtn = document.querySelectorAll('.addMoreBtn');
 addMoreBtn.forEach(btn => {
   btn.addEventListener('click', e => {
     const lessBtn = btn.closest('.quantity-control').getElementsByClassName('less')[0];
+    // console.log(lessBtn);
     let count = +btn.previousElementSibling.innerText;
     const newCount = count + 1;
     const lessBtnHTML = newCount < 2 ? `<span class="material-icons">delete_outline</span>` : `<span class="material-icons">remove</span>`;
