@@ -20,6 +20,10 @@ function initRoutes(app) {
   app.post('/login', authController().doLogin);
   app.get('/register', guest, authController().register);
   app.post('/register', authController().doRegister);
+  app.get("/reset", authController().resetPasswordPage);
+  app.post("/reset", authController().doResetPassword);
+  app.get("/reset/:token", authController().getNewPassword);
+  app.post("/new-password", authController().doNewPassword);
   app.post('/logout', authController().logout);
 
   // Cart Routes

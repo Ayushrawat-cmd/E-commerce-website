@@ -1,6 +1,17 @@
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../../models/user');
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "galaxycafe2425@gmail.com",
+    // api_key:'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'
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 function authController() {
 
@@ -11,6 +22,79 @@ function authController() {
   return {
     login(req, res) {
       res.render('auth/login');
+    },
+    resetPasswordPage(req,res){
+      res.render('auth/reset');
+    },
+    getNewPassword(req,res){
+      const token = req.params.token;
+      User.findOne({resetToken :token, resetTokenExpiration: {$gt : Date.now()} }).then(user=>{
+        if(!user){
+          req.flash("error", 'session timed out!');
+          return res.redirect("/reset");
+        }
+        res.render("auth/newPassword", {
+          userId: user._id.toString(),
+          passwordToken: token
+        });
+
+      }).catch(err=>{
+        console.log(err);
+      });
+    },
+    doNewPassword(req,res){
+      const passwordToken = req.body.passwordToken;
+      const userId = req.body.userId;
+      const newPassword = req.body.password;
+      User.findOne({_id: userId, resetToken:passwordToken, resetTokenExpiration: {$gt: Date.now()}}).then(user=>{
+        if(!user){
+          req.flash("error", 'session timed out!');
+          return res.redirect("/reset");
+        }
+        bcrypt.hash(newPassword, 12).then(hashPw=>{
+          user.password = hashPw;
+          user.resetToken = undefined;
+          user.resetTokenExpiration = undefined;
+          return user.save();
+        }).then(result=>{
+          res.redirect("/login");
+        }).catch(err=>{
+          console.log(err);
+        });
+
+      });
+    },
+    doResetPassword(req,res){
+      const email = req.body.email;
+      crypto.randomBytes(32, (err,buffer)=>{
+        if(err){
+          console.log(err);
+          return res.redirect("/reset");
+        }
+        const token = buffer.toString("hex");
+        User.findOne({email:email}).then(user=>{
+          if(!user){
+            req.flash('error', 'Email not registered!');
+            return res.redirect("/reset");
+          }
+          user.resetToken = token;
+          user.resetTokenExpiration = Date.now() + 3600000;
+          return user.save();
+        }).then(result=>{
+          res.redirect("/");
+          transporter.sendMail({
+            to: email,
+            from: "galaxycafe2425@gmail.com",
+            subject: "Password Reset from Galaxy Cafe",
+            html: `<h1>You requested for password reset!</h1>
+                  <p>Click this <a href="http://localhost:3034/reset/${token}"> link </a> to set new password.</p>`,
+          });
+        })
+        .catch(err=>{
+          console.log(err);
+        })
+
+      })
     },
     doLogin(req, res, next) {
       passport.authenticate('local', (err, user, info) => {

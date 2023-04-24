@@ -1,4 +1,4 @@
-// require('dotenv').config()
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const EventEmitter = require('events');
@@ -10,7 +10,7 @@ const session = require('express-session');
 const flash = require('express-flash');
 const MongoDBStore = require('connect-mongo')(session);
 const passport = require('passport');
-const PORT = process.env.PORT || 3034;
+const PORT = process.env.PORT ;
 
 const connectionString = 'mongodb+srv://admin-ayush:ayush123@cluster0.itvnq.mongodb.net/hackhound?retryWrites=true&w=majority';
 mongoose.connect(
