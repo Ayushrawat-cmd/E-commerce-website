@@ -12,10 +12,6 @@ const MongoDBStore = require('connect-mongo')(session);
 const passport = require('passport');
 const PORT = process.env.PORT || 3034;
 
-// app.set('view engine', 'ejs'); 
-// app.set("resources/views","views");
-
-// DB Connection
 const connectionString = 'mongodb+srv://admin-ayush:ayush123@cluster0.itvnq.mongodb.net/hackhound?retryWrites=true&w=majority';
 mongoose.connect(
   connectionString, {

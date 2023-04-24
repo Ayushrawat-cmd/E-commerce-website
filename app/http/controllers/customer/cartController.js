@@ -62,7 +62,7 @@ function cartController() {
 
       // check if items not in cart
       if (!cart.items[req.body._id]) {
-        if (req.body.menuType === 'pizza' || req.body.menuType === 'pizzamania') {
+        if (req.body.menuType === 'Pizza' || req.body.menuType === 'pizzamania') {
           cart.items[req.body._id] = [{
             item: req.body,
             qty: 1
@@ -74,7 +74,7 @@ function cartController() {
           }
         }
       } else {
-        if (req.body.menuType !== 'pizza' && req.body.menuType !== 'pizzamania') {
+        if (req.body.menuType !== 'Pizza' && req.body.menuType !== 'pizzamania') {
           cart.items[req.body._id].qty = cart.items[req.body._id].qty + 1;
         } else {
           const alreadyAdded = cart.items[req.body._id].filter(it => it.item.size === req.body.size && it.item.crust === req.body.crust);

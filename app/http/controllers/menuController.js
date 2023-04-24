@@ -16,18 +16,19 @@ function menuController() {
           return menus;
         }, {});
         // console.log(allMenus);
-        // console.log(menus);
+        // console.log(menus.Pizza);
         const veg = [],
           nonveg = [];
         const shuffled = menus.Pizza.sort(() => 0.5 - Math.random());
 
         const modified = menus.Pizza.map(item => {
-          // if (item.menuType === 'pizza') {
+          if (item.menuType === 'Pizza') {
             // console.log(item);
              let price = item.options.prices.filter(p => p.size === 'regular')[0].crusts[0] ;
             //  console.log(price);
             item['price'] = price;
-          // }
+            // console.log(price);
+          } 
           return item;
         });
 

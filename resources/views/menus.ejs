@@ -186,7 +186,7 @@
                     <% if(session.cart && (session.cart.items).hasOwnProperty(item._id)) { %>
                     <div class="quantity-control inline">
                       <button type="button" class="less removeOneBtn">
-                        <% if(session.cart.items[item._id]) { %>
+                        <% if(session.cart.items[item._id].reduce((a,i) => a + i.qty, 0) === 1) { %>
                         <span class="material-icons">
                           delete_outline
                         </span>
@@ -196,7 +196,7 @@
                         </span>
                         <% } %>
                       </button>
-                      <p><%= session.cart.items[item._id].qty %></p>
+                      <p><%= session.cart.items[item._id].reduce((a,i) => a + i.qty, 0) %></p>
                       <button type="button" class="more addToCart addMoreBtn">
                         <span class="material-icons">
                           add

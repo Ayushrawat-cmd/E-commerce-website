@@ -3928,9 +3928,9 @@ textarea:focus {
   margin-top: 40px;
 }
 
-.active-orders-table::-webkit-scrollbar {
+/* .active-orders-table::-webkit-scrollbar {
   width: 0 !important;
-}
+} */
 
 .active-orders-table .table-header {
   position: -webkit-sticky;

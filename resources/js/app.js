@@ -363,6 +363,7 @@ function addToCart(item) {
   axios.post('/add-item', item)
     .then((res) => {
       console.log(res.data.cart);
+      
       cartCounter.innerText = res.data.cart.totalQty;
       populateCart(res.data.cart);
       showToast('success', `${item.name} added to cart`);
@@ -452,24 +453,24 @@ function populateCart(data) {
   let items = '';
   for (let cartItem of Object.values(data.items)) {
     if (Array.isArray(cartItem)) {
-      cartItem.forEach(pizza => {
+      cartItem.forEach(Pizza => {
 
-        if (pizza.qty === 0) return;
+        if (Pizza.qty === 0) return;
         items += `
-        <div class="${pizza.item.extra ? 'item' :  'item sm'}">
+        <div class="${Pizza.item.extra ? 'item' :  'item sm'}">
           <figure>
-              <img src="${pizza.item.image}" alt="">
+              <img src="${Pizza.item.image}" alt="">
           </figure>
           <div class="details">
-              <h2>${pizza.item.name}</h2>
-              <p>${pizza.item.description}</p>
+              <h2>${Pizza.item.name}</h2>
+              <p>${Pizza.item.description}</p>
               <div class="more">
-                  <span>${pizza.item.size}</span>
-                  <span>${pizza.item.crust}</span>
+                  <span>${Pizza.item.size}</span>
+                  <span>${Pizza.item.crust}</span>
               </div>
           </div>`;
 
-        if (pizza.item.extra) {
+        if (Pizza.item.extra) {
           items += `
             <div class="custom">
                 <span>Your Customization</span>
@@ -480,11 +481,11 @@ function populateCart(data) {
         items += `
         <div class="price-q">
           <div class="quantity-control">
-            <button type="button" class="less"><span class="material-icons">${pizza.qty === 1 ? 'delete_outline' : 'remove'}</span></button>
-            <p>${pizza.qty}</p>
+            <button type="button" class="less"><span class="material-icons">${Pizza.qty === 1 ? 'delete_outline' : 'remove'}</span></button>
+            <p>${Pizza.qty}</p>
             <button type="button" class="more"><span class="material-icons">add</span></button>
           </div>
-          <h5>&#8377; ${pizza.item.price * pizza.qty}</h5>
+          <h5>&#8377; ${Pizza.item.price * Pizza.qty}</h5>
         </div>`;
 
         items += `</div>`;
@@ -560,7 +561,7 @@ addtoCartBtn.forEach(btn => {
 
     const item = JSON.parse(btn.closest(".menu-card-data").dataset.item);
     // console.log(btn);
-    if (item.menuType === 'pizza' || item.menuType === 'pizzamania') {
+    if (item.menuType === 'Pizza' || item.menuType === 'Pizzamania') {
       const size = btn.closest(".menu-details").getElementsByClassName('size-select')[0];
       const selectedSize = size.options[size.selectedIndex].value;
       const crust = btn.closest(".menu-details").getElementsByClassName('crust-select')[0];
@@ -615,7 +616,7 @@ addFirstBtn.forEach(btn => {
       // add to cart
       const item = JSON.parse(moreBtn.closest(".menu-card-data").dataset.item);
       console.log(item);
-      if (item.menuType === 'pizza' || item.menuType === 'pizzamania') {
+      if (item.menuType === 'Pizza' || item.menuType === 'Pizzamania') {
         const size = moreBtn.closest(".menu-details").getElementsByClassName('size-select')[0];
         const selectedSize = size.options[size.selectedIndex].value;
         const crust = moreBtn.closest(".menu-details").getElementsByClassName('crust-select')[0];
@@ -697,7 +698,7 @@ deleteCartItemBtn.forEach(btn => {
 
 /**
  * FUNCITONALITY: Pizza Options picker
- * Select pizza size and crust type for items to be added in cart
+ * Select Pizza size and crust type for items to be added in cart
  */
 
 const sizeSelect = document.querySelectorAll('.size-select');
