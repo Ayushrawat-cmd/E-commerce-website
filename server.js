@@ -12,7 +12,7 @@ const MongoDBStore = require('connect-mongo')(session);
 const passport = require('passport');
 const PORT = process.env.PORT ;
 
-const connectionString = 'mongodb+srv://admin-ayush:ayush123@cluster0.itvnq.mongodb.net/hackhound?retryWrites=true&w=majority';
+const connectionString = process.env.MONGO_URI;
 mongoose.connect(
   connectionString, {
   useNewUrlParser: true,

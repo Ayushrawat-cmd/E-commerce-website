@@ -70,8 +70,8 @@ function orderController(params) {
 
                     req.flash('success', 'Order placed successfully');
                     const id = order._id.toString();
-                    const accountSid = 'AC4163f402211bbf5069d416ed234e5fcc';
-                    const authToken = 'c1b6b0bac66627e90c90ccbc1a292690';
+                    const accountSid = process.env.TWILIO_SID;
+                    const authToken = process.env.TWILIO_AUTHTOKEN;
                     const client = require('twilio')(accountSid, authToken);
                     console.log(id);
                     client.messages
